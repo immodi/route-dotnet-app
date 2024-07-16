@@ -5,6 +5,7 @@ using Microsoft.Extensions.Hosting;
 using SqlServerWebApi.Data;
 using SqlServerWebApi.Models;
 using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 
 
 var builder = Microsoft.AspNetCore.Builder.WebApplication.CreateBuilder(args);
@@ -18,12 +19,16 @@ builder.Services.AddScoped(typeof(IRepository<Invoice>), typeof(Repository<Invoi
 builder.Services.AddScoped(typeof(IRepository<Product>), typeof(Repository<Product>));
 builder.Services.AddScoped(typeof(IRepository<Order>), typeof(Repository<Order>));
 builder.Services.AddScoped(typeof(IRepository<OrderItem>), typeof(Repository<OrderItem>));
+builder.Services.AddScoped(typeof(RoleManager<IdentityRole>));
+
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 // Add services to the container.
-builder.Services.AddControllers();
+builder.Services.AddControllers(config => config.Filters.Add(new ApiResultFilter()));
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddDefaultIdentity<IdentityUser>()
+    .AddRoles<IdentityRole>();
 
 
 // Register CustomerRepository with the configuration

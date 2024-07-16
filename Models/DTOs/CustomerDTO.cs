@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 public class CustomerDTO
 {
+    [BindNever]
     public int CustomerId { get; set; }
 
     [Required]

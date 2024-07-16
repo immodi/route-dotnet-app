@@ -93,6 +93,22 @@ namespace SqlServerWebApi.Data
             }
         }
 
+        public async Task<bool> RemoveAsync(T entity)
+        {
+            try
+            {
+                _context.Set<T>().Remove(entity);
+                await _context.SaveChangesAsync();
+
+                return true;
+            }
+            catch (DbUpdateException ex)
+            {
+                Console.WriteLine($"Error saving changes: {ex.Message}");
+                return false;
+            }
+        }
+
         
 
         //     // Additional method for lazy loading related entities

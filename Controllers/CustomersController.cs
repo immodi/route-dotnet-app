@@ -10,12 +10,12 @@ namespace SqlServerWebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CustomerController : ControllerBase
+    public class CustomersController : ControllerBase
     {
        private readonly IRepository<Customer> _repository;
         private readonly IMapper _mapper;
 
-        public CustomerController(IRepository<Customer> repository, IMapper mapper)
+        public CustomersController(IRepository<Customer> repository, IMapper mapper)
         {
             _repository = repository;
             _mapper = mapper;
@@ -35,13 +35,18 @@ namespace SqlServerWebApi.Controllers
         {
             try
             {
-                var customer = await _repository.AddAsync(
-                    _mapper.Map<Customer>(_customer)
-                );
+                if (ModelState.IsValid)
+                {
+                    var customer = await _repository.AddAsync(
+                        _mapper.Map<Customer>(_customer)
+                    );
 
-                var customerDTO = _mapper.Map<CustomerDTO>(customer);
+                    var customerDTO = _mapper.Map<CustomerDTO>(customer);
 
-                return Ok(customerDTO);    
+                    return Ok(customerDTO);
+                }
+
+                return BadRequest(ModelState);
             }
             catch (Exception e)
             {
@@ -49,7 +54,7 @@ namespace SqlServerWebApi.Controllers
             }
         }
     
-        [Route("/{customerId}/orders")]
+        [Route("/[controller]/{customerId}/orders")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<OrderDTO>>> GetAllOrders(int customerId)
         {

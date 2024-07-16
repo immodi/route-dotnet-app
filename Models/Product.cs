@@ -10,6 +10,8 @@ public class Product : IEntity
 
     [Required]
     public required string Name { get; set; }
+
+    [Range(0.01, double.MaxValue, ErrorMessage = "Price must be greater than 0")]
     public decimal Price { get; set; }
   
     [Range(0, int.MaxValue, ErrorMessage = "Stock must be at least 0.")]

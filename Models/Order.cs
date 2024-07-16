@@ -9,6 +9,8 @@ public class Order : IEntity
     public int Id { get; set; }
     public int CustomerId { get; set; }
     public DateTime OrderDate { get; set; } = DateTime.Now;
+
+    [Range(0, int.MaxValue, ErrorMessage = "TotalAmount must be between 0 and 100.")]
     public decimal TotalAmount { get; set; }
 
     [Required]

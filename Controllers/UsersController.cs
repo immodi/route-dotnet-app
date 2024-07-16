@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using SqlServerWebApi.Data;
@@ -9,24 +10,20 @@ namespace SqlServerWebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class UsersController : ControllerBase
     {
         private readonly IRepository<User> _repository;
+        private readonly RoleManager<IdentityRole> _role_manager;
 
-        public UserController(IRepository<User> repository)
+
+        public UsersController(IRepository<User> repository, RoleManager<IdentityRole> roleManager)
         {
             _repository = repository;
-        }
-
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetAll()
-        {
-            var Items = await _repository.GetAllAsync();
-            return Ok(Items);
+            _role_manager = roleManager;
         }
 
         [HttpPost]
-        public async Task<ActionResult<int>> Add(User user)
+        public async Task<ActionResult<int>> AddUser(User user)
         {
             try
             {
@@ -39,6 +36,8 @@ namespace SqlServerWebApi.Controllers
             }
         }
     
+        // [HttpGet]
+        // public async
 
     }
 }

@@ -11,6 +11,8 @@ public class OrderItem : IEntity
     public int OrderId { get; set; }
     public int ProductId { get; set; }
     public int Quantity { get; set; }
+
+    [Range(0, int.MaxValue, ErrorMessage = "UnitPrice must be between 0 and 100.")]
     public decimal UnitPrice { get; set; }
 
     [Range(0, 100, ErrorMessage = "Discount must be between 0 and 100.")]

@@ -3,11 +3,8 @@ using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-public class ProductDTO
-{
-    [BindNever]
-    public int ProductId { get; set; }
-    
+public class ProductDetailsDTO
+{    
     [Required]
     public required string Name { get; set; }
     

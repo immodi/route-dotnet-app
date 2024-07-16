@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 public class OrderDTO
 {
 
+    [BindNever]
     public int OrderId { get; set; }
     
     [Required]

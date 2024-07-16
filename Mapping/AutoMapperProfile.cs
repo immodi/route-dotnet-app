@@ -17,8 +17,9 @@ public class MappingProfile : Profile
         
         CreateMap<CustomerDTO, Customer>().ReverseMap()
             .ForMember(dest => dest.CustomerId, opt => opt.MapFrom(src => src.Id));
-    
-        
+
+        CreateMap<InvoiceDTO, Invoice>().ReverseMap()
+            .ForMember(dest => dest.InvoiceId, opt => opt.MapFrom(src => src.Id));       
     }
     
 }
