@@ -9,23 +9,22 @@ namespace SqlServerWebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ItemsController : ControllerBase
+    public class InvoiceController : ControllerBase
     {
-        private readonly ItemRepository _repository;
-        private readonly IConfiguration _configuration;
+        private readonly IRepository<Invoice> _repository;
 
-        public ItemsController(ItemRepository repository, IConfiguration configuration)
+        public InvoiceController(IRepository<Invoice> repository)
         {
             _repository = repository;
-            _configuration = configuration;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Item>>> GetItems()
+        public async Task<ActionResult<IEnumerable<Invoice>>> GetAllInvoices()
         {
-            var Items = await _repository.GetAllItemsAsync();
+            var Items = await _repository.GetAllAsync();
             return Ok(Items);
         }
+    
 
     }
 }
