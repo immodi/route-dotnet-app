@@ -1,5 +1,6 @@
 
 using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 
 
 public class MappingProfile : Profile
@@ -19,7 +20,9 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.CustomerId, opt => opt.MapFrom(src => src.Id));
 
         CreateMap<InvoiceDTO, Invoice>().ReverseMap()
-            .ForMember(dest => dest.InvoiceId, opt => opt.MapFrom(src => src.Id));       
+            .ForMember(dest => dest.InvoiceId, opt => opt.MapFrom(src => src.Id));    
+
+        CreateMap<IdentityUser, AuthUser>().ReverseMap();   
     }
     
 }

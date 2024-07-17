@@ -14,13 +14,13 @@ public class Order : IEntity
     public decimal TotalAmount { get; set; }
 
     [Required]
-    public required string PaymentMethod { get; set; }
+    public string PaymentMethod { get; set; }
     
     [Required]
-    public required string Status { get; set; }
+    public string Status { get; set; }
     
     [BindNever]
-    public virtual required Customer Customer { get; set; }
+    public virtual Customer Customer { get; set; }
 
     [BindNever]
     public virtual ICollection<OrderItem>? OrderItems { get; set; }

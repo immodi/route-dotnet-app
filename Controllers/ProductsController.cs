@@ -1,9 +1,9 @@
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using Microsoft.Extensions.Configuration;
 using SqlServerWebApi.Data;
-using SqlServerWebApi.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -23,6 +23,7 @@ namespace SqlServerWebApi.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<ProductDTO>>> GetAllProducts()
         {
             var products = await _repository.GetAllAsync();
@@ -31,6 +32,7 @@ namespace SqlServerWebApi.Controllers
         }
 
         [HttpPost]
+        [Authorize (Roles = "Admin")]
         public async Task<ActionResult<ProductDTO>> AddProduct(ProductDTO _product)
         {
             try
@@ -59,6 +61,7 @@ namespace SqlServerWebApi.Controllers
 
         [Route("/[controller]/{productId}")]
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<OrderDTO>> GetProductById(int productId) 
         {
             try
@@ -80,6 +83,7 @@ namespace SqlServerWebApi.Controllers
 
         [Route("/[controller]/products/{productId}")]
         [HttpPut]
+        [Authorize (Roles = "Admin")]
         public async Task<ActionResult<ProductDTO>> UpdateOrderById(int productId, [FromBody] ProductDetailsDTO newProductDetails) 
         {
             try

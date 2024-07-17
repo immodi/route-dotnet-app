@@ -1,8 +1,8 @@
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using SqlServerWebApi.Data;
-using SqlServerWebApi.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -21,16 +21,18 @@ namespace SqlServerWebApi.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<CustomerDTO>>> GetAllCustomers()
-        {
-            var customers = await _repository.GetAllAsync();
-            var customerDTOs = _mapper.Map<List<CustomerDTO>>(customers);
+        // [HttpGet]
+        // [Authorize]
+        // public async Task<ActionResult<IEnumerable<CustomerDTO>>> GetAllCustomers()
+        // {
+        //     var customers = await _repository.GetAllAsync();
+        //     var customerDTOs = _mapper.Map<List<CustomerDTO>>(customers);
 
-            return Ok(customerDTOs);
-        }
+        //     return Ok(customerDTOs);
+        // }
 
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<CustomerDTO>> AddCustomer(CustomerDTO _customer)
         {
             try
@@ -56,6 +58,7 @@ namespace SqlServerWebApi.Controllers
     
         [Route("/[controller]/{customerId}/orders")]
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<OrderDTO>>> GetAllOrders(int customerId)
         {
             try

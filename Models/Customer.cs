@@ -9,10 +9,10 @@ public class Customer : IEntity
     public int Id { get; set; }
 
     [Required]
-    public required string Name { get; set; }
+    public string Name { get; set; }
 
     [EmailAddress]
     [Required]
-    public required string Email { get; set; }
+    public string Email { get; set; }
     public virtual ICollection<Order> Orders { get; } = [];
 }

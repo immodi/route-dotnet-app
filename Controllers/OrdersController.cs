@@ -1,9 +1,9 @@
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using SqlServerWebApi.Data;
-using SqlServerWebApi.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -40,6 +40,7 @@ namespace SqlServerWebApi.Controllers
             _mapper = mapper;
         }
 
+        [Authorize (Roles = "Admin")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<OrderDTO>>> GetAllOrders()
         {
@@ -50,6 +51,7 @@ namespace SqlServerWebApi.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<int>> AddOrder(OrderDTO _order)
         {
             try
@@ -104,7 +106,7 @@ namespace SqlServerWebApi.Controllers
                             };
                         }
 
-                        if (orderItems.IsNullOrEmpty()) {
+                        if (!orderItems.Any()) {
                             await _repository.RemoveAsync(order);
                             throw new Exception(string.Format("Can't make an empty order, {0}", errors));
                         }
@@ -139,6 +141,7 @@ namespace SqlServerWebApi.Controllers
 
         [Route("/[controller]/{orderId}")]
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<OrderDTO>> GetOrderById(int orderId) 
         {
             try
@@ -160,6 +163,7 @@ namespace SqlServerWebApi.Controllers
 
         [Route("/[controller]/{orderId}/status")]
         [HttpPut]
+        [Authorize]
         public async Task<ActionResult<OrderStausDTO>> UpdateOrderById(int orderId, [FromBody] OrderStausDTO newOrderStaus) 
         {
             try

@@ -1,8 +1,8 @@
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using SqlServerWebApi.Data;
-using SqlServerWebApi.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -23,6 +23,7 @@ namespace SqlServerWebApi.Controllers
         }
 
         [HttpGet]
+        [Authorize (Roles = "Admin")]
         public async Task<ActionResult<IEnumerable<InvoiceDTO>>> GetAllInvoices()
         {
             var invoices = await _repository.GetAllAsync();
@@ -32,6 +33,7 @@ namespace SqlServerWebApi.Controllers
     
         [Route("/[controller]/{invoiceId}")]
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<InvoiceDTO>> GetInvoiceById(int invoiceId) 
         {
             try

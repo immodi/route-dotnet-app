@@ -9,7 +9,7 @@ public class Product : IEntity
     public int Id { get; set; }
 
     [Required]
-    public required string Name { get; set; }
+    public string Name { get; set; }
 
     [Range(0.01, double.MaxValue, ErrorMessage = "Price must be greater than 0")]
     public decimal Price { get; set; }

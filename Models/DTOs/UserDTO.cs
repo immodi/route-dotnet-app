@@ -7,9 +7,8 @@ public class UserDTO
     public required string Username { get; set; }
     
     [Required]
-    public required string PasswordHash { get; set; }
-    
-    [RegularExpression("^(admin|customer)$", ErrorMessage = "Role must be either 'admin' or 'customer'.")]
+    public required string Password { get; set; }
+
     [Required]
-    public required string Role { get; set; }
+    public Role Role { get; set; }
 }
