@@ -1,3 +1,4 @@
+using System.Net;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -12,6 +13,9 @@ public class UsersController : ControllerBase
 {
     private readonly UserManager<AuthUser> _userManager;
     private readonly IRepository<User> _repository;
+
+    // private readonly IRepository<Customer> _customerRepository;
+
     private readonly OrderManagementDbContext _context;
     private readonly TokenService _tokenService;
     private readonly IMapper _mapper;
@@ -74,13 +78,19 @@ public class UsersController : ControllerBase
         var managedUser = await _userManager.FindByNameAsync(request.Username!);
         if (managedUser == null)
         {
-            return BadRequest("Bad credentials");
+            return BadRequest(new {
+                responseCode = HttpStatusCode.BadRequest,
+                error = "Username is incorrect"
+            });
         }
 
         var isPasswordValid = await _userManager.CheckPasswordAsync(managedUser, request.Password!);
         if (!isPasswordValid)
         {
-            return BadRequest("Bad credentials");
+            return BadRequest(new {
+                responseCode = HttpStatusCode.BadRequest,
+                error = "Password is incorrect"
+            });
         }
 
         var userInDb = _context.Users.FirstOrDefault(u => u.UserName == request.Username);
@@ -94,8 +104,8 @@ public class UsersController : ControllerBase
         
         return Ok(new
         {
-            Username = userInDb.UserName,
-            Token = accessToken,
+            username = userInDb.UserName,
+            token = accessToken,
         });
     }
 

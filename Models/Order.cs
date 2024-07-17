@@ -14,7 +14,7 @@ public class Order : IEntity
     public decimal TotalAmount { get; set; }
 
     [Required]
-    public string PaymentMethod { get; set; }
+    public PaymentMethods PaymentMethod { get; set; }
     
     [Required]
     public string Status { get; set; }
@@ -27,4 +27,11 @@ public class Order : IEntity
 
     [BindNever]
     public virtual Invoice? Invoice { get; set; }
+}
+
+public enum PaymentMethods
+{
+    Cash,
+    Paypal,
+    Card
 }

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using SqlServerWebApi.Data;
 using System.Collections.Generic;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace SqlServerWebApi.Controllers
@@ -52,7 +53,10 @@ namespace SqlServerWebApi.Controllers
             }
             catch (Exception e)
             {
-                return BadRequest(e.Message);
+                return BadRequest(new {
+                    responseCode = HttpStatusCode.BadRequest,
+                    error = e.Message
+                });
             }
         }
     
@@ -76,7 +80,10 @@ namespace SqlServerWebApi.Controllers
             }
             catch (Exception e)
             {
-                return BadRequest(e.Message);
+                return BadRequest(new {
+                    responseCode = HttpStatusCode.BadRequest,
+                    error = e.Message
+                });
             }
         }
 

@@ -18,7 +18,7 @@ public class OrderDTO
     public virtual string Status { get; set; }
 
     [Required]
-    public required string PaymentMethod { get; set; }
+    public required PaymentMethods PaymentMethod { get; set; }
     
     [Required]
     public virtual ICollection<OrderItemDTO> OrderItems { get; set; } = null!;
